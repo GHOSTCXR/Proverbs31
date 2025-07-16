@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Proverbs 31 Woman Conference</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Montserrat&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <style>
+    /* --- Welcome Popup Styles --- */
+    .modal {
+      position: fixed;
+      z-index: 1000;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0,0,0,0.5);
+      display: flex; align-items: center; justify-content: center;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .modal-content.welcome {
+      background-color: #fff;
+      border-radius: 12px;
+      padding: 2rem;
+      max-width: 400px;
+      width: 90%;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    .modal-content h2 {
+      font-family: 'Playfair Display', serif;
+      color: var(--gold, #DAA520);
+    }
+
+    .modal-content .close {
+      position: absolute;
+      top: 10px; right: 15px;
+      font-size: 24px;
+      cursor: pointer;
+      color: #888;
+    }
+
+    .welcome-buttons {
+      margin-top: 1.5rem;
+    }
+
+    .welcome-buttons .btn {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: var(--gold, #DAA520);
+      color: #fff;
+      border-radius: 5px;
+      margin: 0.5rem;
+      text-decoration: none;
+      transition: background-color 0.3s;
+    }
+
+    .welcome-buttons .btn.secondary {
+      background-color: #444;
+    }
+
+    .welcome-buttons .btn:hover {
+      opacity: 0.9;
+    }
+
+    /* Featured Video Section */
+    .featured-video {
+      max-width: 800px;
+      margin: 3rem auto;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .featured-video h2 {
+      font-family: 'Playfair Display', serif;
+      color: var(--gold, #D4AF37);
+      margin-bottom: 1rem;
+    }
+
+    .video-wrapper {
+      position: relative;
+      padding-bottom: 56.25%; /* 16:9 aspect ratio */
+      height: 0;
+      overflow: hidden;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+      margin-bottom: 1rem;
+    }
+
+    .video-wrapper iframe {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    /* News Stories Section */
+    .news-section {
+      max-width: 900px;
+      margin: 2rem auto 4rem auto;
+      padding: 0 1rem;
+    }
+
+    .news-story {
+      background: var(--blush, #FADADD);
+      border-radius: 12px;
+      padding: 1.8rem 2rem;
+      margin-bottom: 2.5rem;
+      box-shadow: 0 5px 15px rgba(212, 175, 55, 0.2);
+      font-family: 'Montserrat', sans-serif;
+      color: #4a4a4a;
+      line-height: 1.5;
+    }
+
+    .news-story h3 {
+      font-family: 'Playfair Display', serif;
+      color: var(--gold, #D4AF37);
+      margin-bottom: 1rem;
+      font-size: 1.8rem;
+      text-align: center;
+    }
+
+    .news-story p {
+      margin-bottom: 1rem;
+      font-size: 1rem;
+      white-space: pre-line;
+    }
+
+    .news-story .author {
+      font-weight: 600;
+      text-align: right;
+      font-style: italic;
+      margin-top: 1.5rem;
+      color: #6a6a6a;
+    }
+
+    /* Existing styles */
+
+    /* Navbar */
+    .navbar {
+      position: sticky;
+      top: 0;
+      background: var(--white);
+      display: flex;
+      justify-content: space-between;
+      padding: 1rem 2rem;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+    .navbar .logo {
+      font-size: 1.8rem;
+      color: var(--gold, #D4AF37);
+    }
+    .navbar nav a {
+      margin-left: 1.5rem;
+      color: var(--gold, #D4AF37);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 6rem 2rem;
+      background: linear-gradient(to bottom, var(--lavender, #E6E6FA), var(--white));
+      text-align: center;
+    }
+    .hero h1 {
+      font-size: 2.8rem;
+      margin-bottom: 1rem;
+      color: var(--gold, #D4AF37);
+    }
+    .hero p {
+      font-size: 1.2rem;
+      max-width: 600px;
+      margin: auto;
+    }
+
+    /* CTA and back to top */
+    .sticky-cta, .back-to-top {
+      position: fixed;
+      bottom: 20px;
+      padding: 1rem;
+      border-radius: 50px;
+      text-decoration: none;
+      z-index: 1000;
+    }
+    .sticky-cta {
+      right: 20px;
+      background: var(--gold, #D4AF37);
+      color: white;
+    }
+    .back-to-top {
+      left: 20px;
+      background: var(--blush, #FADADD);
+      color: #444;
+    }
+
+    /* Footer */
+    .footer {
+      background: var(--lavender, #E6E6FA);
+      text-align: center;
+      padding: 2rem 1rem;
+      font-size: 0.9rem;
+    }
+    .footer .social-icons a {
+      color: var(--gold, #D4AF37);
+      margin: 0 10px;
+      font-size: 1.4rem;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .footer .social-icons a:hover {
+      color: var(--blush, #FADADD);
+    }
+
+    /* Animations */
+    .fade {
+      animation: fadeIn 1s ease-in;
+    }
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(20px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="logo">Proverbs 31</div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="speakers.html">Speakers</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="contact.html">Contact</a>
+      <a href="recap.html">Recap</a>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero fade">
+    <div class="hero-text">
+      <h1>Grace. Strength. Wisdom.</h1>
+      <p>Welcome to the Proverbs 31 Woman Conference</p>
+    </div>
+  </section>
+
+  <!-- Featured Video Section -->
+  <section class="featured-video fade">
+    <h2>Featured Speaker: DR LOVE OGAH</h2>
+    <div class="video-wrapper">
+      <iframe 
+        src="https://www.youtube.com/embed/uirMxGI4rhY?start=396" 
+        title="DR LOVE OGAH at Proverbs 31 Woman Conference" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+        allowfullscreen>
+      </iframe>
+    </div>
+    <p>Watch Mrs. Esther Adebayo share her inspiring message at the conference.</p>
+  </section>
+
+  <!-- News Stories Section -->
+  <section class="news-section fade">
+    <article class="news-story">
+      <h3>Why do women crawl when they are made to soar?</h3>
+      <p>As inspired by the p31 woman conference, this article explores how todays woman can stay grounded in light and purpose, while thriving in every area.</p>
+      <p>Women were created to thrive in every sphere of life-faith, career, family and influence but what happens when they don’t know that thriving is a possible?</p>
+      <p>At the p31 woman conference, we saw women from diverse backgrounds come to the knowledge of their true potential. They began to see that they were never meant to shrink but shine.</p>
+      <p>The world today is filled with women with clipped wings, and silenced voices, forced to conform to society and its beliefs. Sometimes it’s not the world holding the scissors – the women themselves do.</p>
+      <p>From forgetting who they are to taking up on identities’ others have placed on them, many women now live as what others call them to be,” Your wholeness begins from knowing who you are- Mrs. Funto Ibioye.</p>
+      <p>The speakers didn’t just come to inform- they came to rebuild, restore and rewrite the stories of many women. One of them boldly declared, “Your identity is not in your mistakes, your failures or your regrets, it’s in who God has called you to be.”</p>
+      <p class="author">Written by: Tope Shode</p>
+    </article>
+
+    <article class="news-story">
+      <h3>HER FEMININITY: THE PLACE WHERE HER STRENGTH LIES</h3>
+      <p>Her strength blooms out of her selflessness and nurturing nature, the constant pressure to act tough to survive in this world is a façade, the workplace has made many women strip themselves of their feminine nature because they are expected to “man up”.</p>
+      <p>We look at the Proverbs 31 woman, she ran businesses, managed homes, was active in real estate but still led with integrity, and cared for her community. “She considers a field and buys it, out of her earnings she plants a vineyard” (Prov.31:16). This is not weakness, it is leadership rooted in purpose and care.</p>
+      <p>A woman does not have to pretend to be tough to excel in the workspace or life in general, a woman is a born leader, she multitasks like it’s a walk in the park; from long working hours to nurturing relationships and building a family that becomes a community.</p>
+      <p>We see the likes of Dr. Love Ogah, Mrs. Funto Ibioye and Min Titooluwa Sam Oladapo they lead with wisdom and compassion, just like the Proverbs 31 woman “She speaks with wisdom, and faithful instruction is on her tongue.”</p>
+      <p>The future doesn’t need more women pretending to be men but it needs a future where women accept, embody and unleash their peculiar feminine abilities just like the Proverbs 31 woman did ages ago. Whether in the workplace or in the family your femininity is where your strength lies, accept it.</p>
+      <p class="author">Written by: Oluwayemisi Patience Salako</p>
+    </article>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer fade">
+    <p>© 2025 Proverbs 31 Woman Conference | All rights reserved.</p>
+    <div class="social-icons">
+      <a href="#" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+      <a href="#" aria-label="Twitter"><i class="bi bi-twitter"></i></a>
+      <a href="#" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+      <a href="#" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
+    </div>
+  </footer>
+
+  <!-- Back to Top Button -->
+  <a href="#top" class="back-to-top" aria-label="Back to top"><i class="bi bi-arrow-up"></i></a>
+
+</body>
+</html>
